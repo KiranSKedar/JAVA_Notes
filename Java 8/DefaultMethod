@@ -1,0 +1,26 @@
+package com.java8;
+
+
+interface A{
+	default void display() {
+		System.out.println("Hey, I am in default method");
+	}
+}
+
+class B implements A{
+	
+}
+public class DefaultDemo {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		B obj=new B();
+		obj.display();
+	}
+
+}
+
+
+//output
+
+Hey, I am in default method
