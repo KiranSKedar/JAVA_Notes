@@ -1,0 +1,24 @@
+package com.java8;
+
+interface A {
+	String getName();
+}
+
+class Student implements A {
+	public String getName() {
+		return "Kiran";
+	}
+}
+
+public class DefaultDemo {
+
+	public static void main(String[] args) {
+//		A obj=new Student();
+//		
+//		System.out.println(obj.getName());
+		A obj= ()->"Hello Kiran";
+		
+		System.out.println(obj.getName());
+	}
+
+}
