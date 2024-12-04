@@ -1,0 +1,15 @@
+package com.java8;
+
+interface A {
+	static void display() {
+		System.out.println("Hello in static");
+	}
+}
+
+public class DefaultDemo {
+
+	public static void main(String[] args) {
+		A.display();
+	}
+
+}
