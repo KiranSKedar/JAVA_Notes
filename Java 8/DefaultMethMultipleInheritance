@@ -1,0 +1,41 @@
+package com.java8;
+
+
+interface A{
+	default void display() {
+		System.out.println("Hey, I am in default method");
+	}
+}
+
+interface B{
+	default void display() {
+		System.out.println("Hey, I am in default method");
+	}
+}
+public class DefaultDemo implements A,B {
+
+	public static void main(String[] args) {
+		DefaultDemo d=new DefaultDemo();
+		d.display();
+		}
+
+}
+
+// it will crreate ambiguity, to resolve this we need to override dispaly method in DefaultDemo
+
+public class DefaultDemo implements A,B {
+
+	public static void main(String[] args) {
+		DefaultDemo d=new DefaultDemo();
+		d.display();
+		}
+
+	@Override
+	public void display() {
+		
+		B.super.display();
+//A.super.display();
+//Syso(My own implementation);
+	}
+
+}
