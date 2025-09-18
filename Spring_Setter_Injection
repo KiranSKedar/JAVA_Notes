@@ -1,0 +1,113 @@
+***********************************MAIN
+
+package com.beginagain.spring.springcore;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+/**
+ * Hello world!
+ *
+ */
+public class App 
+{
+    public static void main( String[] args )
+    {
+        System.out.println( "Hello World!" );
+        
+      ApplicationContext context = new ClassPathXmlApplicationContext("config.xml");
+      Student st = (Student) context.getBean("std1");
+      System.out.println(st);
+    
+    }
+}
+
+
+
+**************************************************POJO
+package com.beginagain.spring.springcore;
+
+public class Student {
+	
+	private int studentId;
+	private String name;
+	private String address;
+	public int getStudentId() {
+		return studentId;
+	}
+	public void setStudentId(int studentId) {
+		this.studentId = studentId;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public Student(int studentId, String name, String address) {
+		super();
+		this.studentId = studentId;
+		this.name = name;
+		this.address = address;
+	}
+	public Student() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	@Override
+	public String toString() {
+		return "Student [studentId=" + studentId + ", name=" + name + ", address=" + address + "]";
+	}
+	
+	
+
+}
+
+
+*********************************************config
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- bean definitions here -->
+    
+    
+    <bean class="com.beginagain.spring.springcore.Student" name="std1">
+    <property name="studentId">
+    <value>123</value>
+    </property>
+    <property name="address">
+    <value>Sangola</value>
+    </property>
+    <property name="name">
+    <value>Kiran</value>
+    </property>
+    
+    </bean>
+
+</beans>
+
+
+
+**************************************************pom.xml
+add below 2 dependencies in pom file
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-core</artifactId>
+    <version>6.2.11</version>
+</dependency>
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-context</artifactId>
+    <version>6.2.11</version>
+</dependency>
