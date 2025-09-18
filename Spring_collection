@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- bean definitions here -->
+
+
+	<bean class="com.collections.Employess" name="emp1">
+
+		<property name="name" value="Radhika"></property>
+
+		<property name="phones">
+			<list>
+				<value>12345</value>
+				<value>67890</value>
+
+			</list>
+		</property>
+
+		<property name="addr">
+			<set>
+				<value>Sangola
+				</value>
+				<value>Ppur</value>
+			</set>
+		</property>
+		<property name="courses">
+		<map>
+			<entry key="java" value="2months"/>
+			<entry key = "python" value="1month"/>
+		</map>
+		</property>
+	</bean>
+
+</beans>
+
+***************************************************************************
+
+
+package com.collections;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+public class Employess {
+	
+	private String name;
+	private List<String> phones;
+	private Set<String> addr;
+	private Map<String, String> courses;
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public List<String> getPhones() {
+		return phones;
+	}
+	public void setPhones(List<String> phones) {
+		this.phones = phones;
+	}
+	public Set<String> getAddr() {
+		return addr;
+	}
+	public void setAddr(Set<String> addr) {
+		this.addr = addr;
+	}
+	public Map<String, String> getCourses() {
+		return courses;
+	}
+	public void setCourses(Map<String, String> courses) {
+		this.courses = courses;
+	}
+	public Employess(String name, List<String> phones, Set<String> addr, Map<String, String> courses) {
+		super();
+		this.name = name;
+		this.phones = phones;
+		this.addr = addr;
+		this.courses = courses;
+	}
+	public Employess() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+	
+
+}
+***************************************************************************
+
+package com.collections;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Test {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		
+	ApplicationContext context = 	new ClassPathXmlApplicationContext("com/collections/collectionconfig.xml");
+	Employess e = (Employess) context.getBean("emp1");
+	
+	System.out.println(e.getName());
+	System.out.println(e.getAddr());
+	System.out.println(e.getCourses());
+	System.out.println(e.getPhones());
+	
+	}
+
+}
