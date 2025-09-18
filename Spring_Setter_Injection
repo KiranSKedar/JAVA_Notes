@@ -97,6 +97,7 @@ public class Student {
 
 </beans>
 
+    <bean class = "com.beginagain.spring.springcore.Student" name = "std2" p:studentId="12" p:name="Chaitali" p:address="Ppur"></bean>
 
 
 **************************************************pom.xml
