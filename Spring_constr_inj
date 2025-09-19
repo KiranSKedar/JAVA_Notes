@@ -1,0 +1,82 @@
+package com.constructorInjection;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Test {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		ApplicationContext context = new ClassPathXmlApplicationContext("com/constructorInjection/constrconfig.xml");
+		Person p =(Person) context.getBean("person");
+		
+		System.out.println(p);
+	}
+
+}
+
+************************************************************************************************
+package com.constructorInjection;
+
+public class Person {
+	
+	private String name;
+	private int id;
+	private Certi cert;
+	
+	
+	public Person(String name, int id, Certi cert) {
+		this.name=name;
+		this.id=id;
+		this.cert=cert;
+	}
+
+
+	@Override
+	public String toString() {
+		return this.name+" : "+this.id+ this.cert.name;
+	}
+	
+************************************************************************************************	
+package com.constructorInjection;
+
+public class Certi {
+	
+	 String name;
+
+	public Certi(String name) {
+		this.name=name;
+	}
+
+	@Override
+	public String toString() {
+		return this.name;
+	}
+}
+
+************************************************************************************************	
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- bean definitions here -->
+
+
+<bean class="com.constructorInjection.Certi" name="cer">
+<constructor-arg value="GH300"></constructor-arg>
+</bean>
+	<bean class="com.constructorInjection.Person" name="person">
+	<constructor-arg>
+	<value>Kiran</value>
+	</constructor-arg>
+	<constructor-arg value="24" type="int"></constructor-arg>
+	<constructor-arg ref="cer"></constructor-arg>
+	</bean>
+
+</beans>
+}
