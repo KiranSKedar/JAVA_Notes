@@ -1,0 +1,82 @@
+package com.springbeanlifecycle;
+
+public class Samosa {
+	
+	private double price;
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		
+		System.out.println("Setting price");
+		this.price = price;
+	}
+
+	public Samosa() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public String toString() {
+		return "Samosa [price=" + price + "]";
+	}
+	
+	
+	public void init() {
+		System.out.println("Inside init method");
+	}
+	
+	public void destroy() {
+		System.out.println("Inside destroy");
+	}
+	
+	
+
+}
+
+*******************************************************************************************************
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- bean definitions here -->
+
+	<bean class="com.springbeanlifecycle.Samosa" name="s1" init-method="init" destroy-method="destroy">
+	<property name="price" value="10"></property></bean>
+	
+	
+	
+	</beans>
+
+*******************************************************************************************************
+
+package com.springbeanlifecycle;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Main {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		AbstractApplicationContext context = new ClassPathXmlApplicationContext("com/springbeanlifecycle/lifecycleconfig.xml");
+		
+	Samosa s=(Samosa)	context.getBean("s1");
+	
+	System.out.println(s);
+	
+	context.registerShutdownHook();
+		
+	}
+
+}
+
