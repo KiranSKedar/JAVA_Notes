@@ -1,0 +1,120 @@
+package com.autowiring.xml;
+
+public class Emp {
+	
+	private Address address;
+
+	public Emp() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	@Override
+	public String toString() {
+		return "Emp [address=" + address + "]";
+	}
+	
+
+	
+}
+*********************************************************************
+
+package com.autowiring.xml;
+
+public class Address {
+	
+	private String street;
+	private String city;
+	public String getStreet() {
+		return street;
+	}
+	public void setStreet(String street) {
+		this.street = street;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	@Override
+	public String toString() {
+		return "Address [street=" + street + ", city=" + city + "]";
+	}
+	
+	
+
+}
+*********************************************************************
+
+package com.autowiring.xml;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Test {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		
+		ApplicationContext context = new ClassPathXmlApplicationContext("com/autowiring/xml/autowiringconfig.xml");
+		
+//	Emp e=	context.getBean("Emp1", Emp.class);
+//	System.out.println(e);
+	
+	Emp e1=	context.getBean("Emp2", Emp.class);
+	System.out.println(e1);
+	}
+
+}
+*********************************************************************
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:annotation-config />
+
+
+
+<!-- 	<bean class="com.autowiring.xml.Address" name="address"> -->
+<!-- 		<property name="street" value="Ppur road"> -->
+
+<!-- 		</property> -->
+
+<!-- 		<property name="city" value="sangola"></property> -->
+<!-- 	</bean> -->
+
+
+<!-- 	<bean class="com.autowiring.xml.Emp" name="Emp1" autowire="byName"></bean> -->
+	
+	
+	<bean class="com.autowiring.xml.Address" name="address1">
+		<property name="street" value="Damrt road">
+
+		</property>
+
+		<property name="city" value="Pandharpur"></property>
+	</bean>
+
+
+	<bean class="com.autowiring.xml.Emp" name="Emp2" autowire="byType"></bean>
+	
+
+</beans>
