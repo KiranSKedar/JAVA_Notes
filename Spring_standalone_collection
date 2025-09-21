@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util 
+http://www.springframework.org/schema/util/spring-util.xsd
+        
+        ">
+
+	<!-- bean definitions here -->
+
+<util:list list-class="java.util.LinkedList" id="f1">
+<value>Aman</value>
+<value>Raman</value>
+<value>Kiran</value>
+<value>Naman</value>
+</util:list>
+
+
+<util:map map-class="java.util.HashMap" id="f2">
+<entry key="Java Core" value="5000"></entry>
+<entry key="Spring" value="8000"></entry>
+<entry key="Springboot" value="9000"></entry>
+
+</util:map>
+
+<util:properties id="f3">
+<prop key="driver">com.mysql.jdbc.Driver</prop>
+<prop key="username">Durgesh</prop>
+<prop key="password">abcd</prop>
+<prop key="url">mysql:jdbc://localhost:3306/database</prop>
+
+
+</util:properties>
+
+
+	<bean class="com.standalone.Person" name="p1">
+
+		<property name="friends">
+		<ref bean="f1"/>
+		</property>
+		
+		<property name="feestructure" ref="f2"></property>
+		<property name="prop" ref="f3"></property>
+	</bean>
+
+
+***************************************************************************
+
+package com.standalone;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
+public class Person {
+	
+	private List<String> friends;
+	private Map<String, Integer> feestructure;
+	private Properties prop;
+	
+	
+	
+	public Properties getProp() {
+		return prop;
+	}
+
+	public void setProp(Properties prop) {
+		this.prop = prop;
+	}
+
+	public Map<String, Integer> getFeestructure() {
+		return feestructure;
+	}
+
+	public void setFeestructure(Map<String, Integer> feestructure) {
+		this.feestructure = feestructure;
+	}
+
+	
+	
+
+	public List<String> getFriends() {
+		return friends;
+	}
+
+	public void setFriends(List<String> friends) {
+		this.friends = friends;
+	}
+
+	@Override
+	public String toString() {
+		return "Person [friends=" + friends + ", feestructure=" + feestructure + ", prop=" + prop + "]";
+	}
+
+	
+
+	
+	
+	
+	
+
+}
+***********************************************************************
+
+package com.standalone;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Test {
+	
+	public static void main(String[] args) {
+		ApplicationContext context = new ClassPathXmlApplicationContext("com/standalone/standaloneconfig.xml");
+		
+	Person c=	context.getBean("p1", Person.class);
+	
+	System.out.println(c);
+	System.out.println(c.getFriends().getClass().getName());
+	}
+
+}
+
+
+
+</beans>
