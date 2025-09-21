@@ -1,0 +1,121 @@
+package com.stereotype;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Test {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		ApplicationContext con = new ClassPathXmlApplicationContext("com/stereotype/stereoconfig.xml");
+		
+	Student s=	con.getBean("student",Student.class);
+	System.out.println(s);
+	
+	System.out.println(s.getAddr());
+	System.out.println(s.getAddr().getClass().getName());
+	}
+
+}
+***********************************************************************
+package com.stereotype;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
+public class Student {
+	
+	@Value("Kiran")
+	private String studentName;
+	@Value("Pandharpur")
+	private String city;
+	
+	@Value("#{temp}")
+	private List<String> addr;
+	
+	
+	public List<String> getAddr() {
+		return addr;
+	}
+	public void setAddr(List<String> addr) {
+		this.addr = addr;
+	}
+	public String getStudentName() {
+		return studentName;
+	}
+	public void setStudentName(String studentName) {
+		this.studentName = studentName;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	@Override
+	public String toString() {
+		return "Student [studentName=" + studentName + ", city=" + city + "]";
+	}
+	
+	
+
+}
+*******************************************************************************************
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util 
+http://www.springframework.org/schema/util/spring-util.xsd
+        
+        ">
+
+	<!-- bean definitions here -->
+
+<util:list list-class="java.util.LinkedList" id="f1">
+<value>Aman</value>
+<value>Raman</value>
+<value>Kiran</value>
+<value>Naman</value>
+</util:list>
+
+
+<util:map map-class="java.util.HashMap" id="f2">
+<entry key="Java Core" value="5000"></entry>
+<entry key="Spring" value="8000"></entry>
+<entry key="Springboot" value="9000"></entry>
+
+</util:map>
+
+<util:properties id="f3">
+<prop key="driver">com.mysql.jdbc.Driver</prop>
+<prop key="username">Durgesh</prop>
+<prop key="password">abcd</prop>
+<prop key="url">mysql:jdbc://localhost:3306/database</prop>
+
+
+</util:properties>
+
+
+	<bean class="com.standalone.Person" name="p1">
+
+		<property name="friends">
+		<ref bean="f1"/>
+		</property>
+		
+		<property name="feestructure" ref="f2"></property>
+		<property name="prop" ref="f3"></property>
+	</bean>
+
+
+
+</beans>
