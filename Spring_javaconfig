@@ -1,0 +1,105 @@
+package com.javaconfig;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+public class Test {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		ApplicationContext context = new AnnotationConfigApplicationContext(JavaConfig.class);
+
+		Student s= context.getBean("getStudent", Student.class);
+		
+		System.out.println(s);
+		s.study();
+		
+		Person p = context.getBean("getPerson", Person.class);
+		System.out.println(p);
+		p.withoutComponent();
+	}
+
+}
+***************************************************************
+package com.javaconfig;
+
+import org.springframework.stereotype.Component;
+
+//@Component("first")
+public class Student {
+	
+	private Samosa s;
+	
+	
+	
+	public Student(Samosa s) {
+		super();
+		this.s = s;
+	}
+
+
+
+	public Samosa getS() {
+		return s;
+	}
+
+
+
+	public void setS(Samosa s) {
+		this.s = s;
+	}
+
+
+
+	public void study() {
+		this.s.display();
+		System.out.println("Reading");
+	}
+
+}
+************************************************************************
+
+package com.javaconfig;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+//@ComponentScan(basePackages = "com.javaconfig")
+public class JavaConfig {
+	@Bean
+	public Person getPerson() {
+		Person p = new Person();
+		
+		return p;
+	}
+	
+	@Bean
+	public Samosa getSamosa() {
+		return new Samosa();
+	}
+	
+	@Bean
+	public Student getStudent() {
+		Student std = new Student(getSamosa());
+		return std;
+	}
+
+}
+****************************************************************************
+
+package com.javaconfig;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Component;
+
+
+public class Samosa {
+	
+	public void display() {
+		System.out.println("My price is little bit high");
+	}
+
+}
