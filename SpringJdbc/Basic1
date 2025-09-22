@@ -1,0 +1,166 @@
+package com.spring.jdbc;
+
+public class Student {
+	
+	private int id;
+	private String name;
+	private String city;
+	public Student() {
+		
+	}
+	public Student(int id, String name, String city) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.city = city;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	@Override
+	public String toString() {
+		return "Student [id=" + id + ", name=" + name + ", city=" + city + "]";
+	}
+	
+**********************************************************************************************	
+	
+	package com.spring.jdbc;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.jdbc.core.JdbcTemplate;
+
+import com.DAO.StudentDapImpl;
+
+/**
+ * Hello world!
+ *
+ */
+public class App 
+{
+    public static void main( String[] args )
+    {
+        System.out.println( "My Program started" );
+        
+        
+        ApplicationContext context = new ClassPathXmlApplicationContext("com/spring/jdbc/config.xml");
+        
+      StudentDapImpl s=  context.getBean("std",StudentDapImpl.class);
+Student std=context.getBean("s1",Student.class);
+
+int r=s.insert(std);
+System.out.println("Student added successfully:-"+r);
+
+      
+      
+      //      JdbcTemplate template =  context.getBean("jdbc", JdbcTemplate.class);
+      
+      
+//      String query = "insert into student(id,name,city) values(?,?,?)";
+      
+//      int update = template.update(query,666,"Abhi","Kanpur");
+//      System.out.println("Number of records inserted" +update);
+    
+    }
+}
+
+	
+	
+	
+
+}
+****************************************************************************************
+
+
+package com.DAO;
+
+import org.springframework.jdbc.core.JdbcTemplate;
+
+import com.spring.jdbc.Student;
+
+public class StudentDapImpl implements StudentDao{
+
+	private JdbcTemplate jdbcTemplate;
+	
+	public int insert(Student student ) {
+	      String query = "insert into student(id,name,city) values(?,?,?)";
+	    int r=  jdbcTemplate.update(query, student.getId(),student.getName(),student.getCity());
+		
+		return r;
+	}
+
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
+	}
+
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
+	
+	
+
+}
+**********************************************************************************
+
+package com.DAO;
+
+import com.spring.jdbc.Student;
+
+public interface StudentDao {
+	
+	public int insert(Student student);
+
+}
+**********************************************************************************
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- bean definitions here -->
+
+
+	<bean
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		name="ds">
+		<property name="driverClassName"
+			value="com.mysql.cj.jdbc.Driver" />
+		<property name="url"
+			value="jdbc:mysql://Localhost:3306/springjdbc" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+	</bean>
+
+	<bean class="org.springframework.jdbc.core.JdbcTemplate"
+		name="jdbc">
+		<property name="dataSource" ref="ds"></property>
+	</bean>
+
+<bean class="com.DAO.StudentDapImpl" name="std">
+<property name="jdbcTemplate" ref="jdbc"></property>
+</bean>
+
+<bean class="com.spring.jdbc.Student" name="s1">
+<property name="id" value="999"/>
+<property name="name" value="Radhesh"/>
+<property name="city" value="Sctland"></property>
+</bean>
+</beans>
