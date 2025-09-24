@@ -1,0 +1,27 @@
+class Solution {
+    public int findNumbers(int[] nums) {
+        int cnt =0;
+       for(int num: nums){
+            if(isEven(num)){
+                cnt++;
+            }
+       }
+       return cnt;
+        
+    }
+    boolean isEven(int num){
+        int digits = find_digits(num);
+        return digits%2==0;
+    }
+
+    int find_digits(int num){
+
+        return (int)(Math.log10(num))+1;
+        // int d=0;
+        // while(num>0){
+        //     d++;
+        //     num=num/10;
+        // }
+        // return d;
+    }
+}
