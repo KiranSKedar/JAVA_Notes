@@ -1,0 +1,133 @@
+package com.DAO;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
+
+import com.spring.jdbc.Student;
+
+@Component("std")
+public class StudentDapImpl implements StudentDao{
+
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+	
+	public int insert(Student student ) {
+	      String query = "insert into student(id,name,city) values(?,?,?)";
+	    int r=  jdbcTemplate.update(query, student.getId(),student.getName(),student.getCity());
+		
+		return r;
+	}
+	
+	
+
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
+	}
+
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
+
+
+
+	@Override
+	public int change(Student student) {
+		String query = "update Student set name=?,city=? where id=?";
+		int update = this.jdbcTemplate.update(query,student.getName(),student.getCity(),student.getId());
+		return update;
+	}
+
+
+
+	@Override
+	public int delete(int id) {
+		
+		String query="delete from Student where id=?";
+		int update = this.jdbcTemplate.update(query,id);
+		
+		return update;
+	}
+
+
+
+	@Override
+	public Student getSTudent(int studentId) {
+		String query = "select * from Student where id=?";
+		RowMapper<Student> rowMapper=new RowMapperImpl();
+		Student student = this.jdbcTemplate.queryForObject(query, rowMapper,studentId);
+		
+		return student;
+	}
+
+
+
+	@Override
+	public List<Student> getAllStudents() {
+		
+		String query="select * from Student";
+		
+		List<Student> query2 = this.jdbcTemplate.query(query, new RowMapperImpl());
+		
+		
+		return query2;
+	}
+	
+
+
+*********************************************************************************
+
+
+package com.spring.jdbc;
+
+import javax.sql.DataSource;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+
+import com.DAO.StudentDao;
+import com.DAO.StudentDapImpl;
+
+@Configuration
+@ComponentScan(basePackages = {"com.DAO"})
+public class JdbcConfig {
+
+	@Bean("ds")
+	public DataSource getDataSource() {
+		DriverManagerDataSource ds = new DriverManagerDataSource();
+		ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
+		ds.setUrl("jdbc:mysql://Localhost:3306/springjdbc");
+		ds.setUsername("root");
+		ds.setPassword("root");
+
+		return ds;
+	}
+
+	@Bean("jdbcTemplate")
+	public JdbcTemplate getTemplate() {
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate();
+		jdbcTemplate.setDataSource(getDataSource());
+
+		return jdbcTemplate;
+
+	}
+
+//	@Bean("std")
+//	public StudentDapImpl getStudentDao()
+//	{
+//		StudentDapImpl studentDao = new StudentDapImpl();
+//		studentDao.setJdbcTemplate(getTemplate());
+//		return studentDao;
+//	}
+
+}
+
+
+}
